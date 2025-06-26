@@ -11,6 +11,7 @@ let assert: Assert;
 
 Given('the user is on the login page', { timeout: timeout }, async function () {
   loginPage = new LoginPage(fixture.page);
+  homePage = new HomePage(fixture.page);
   assert = new Assert(fixture.page);
   await loginPage.goto(process.env.BASEURL);
 });
