@@ -15,9 +15,13 @@ export default class HomePage {
     textboxRole: "textbox",
     luegFilesHomeText: "LUEG Files",
     recordIdText: "Record ID*",
+    recordIdForEditText: "Record ID",
     createDocumentIcon: "#b13-LinkCreateDocumentToolbar .fa-plus-square",
     dropdownObjectTypeLocator: "#b13-b45-DropdownDocumentTypeId",
-    dropdownModelTemplateLocator: "#b13-b45-b1-SelectedValues"
+    dropdownModelTemplateLocator: "#b13-b45-b1-SelectedValues",
+    checkboxIndexLocators: "[id*='SelectCheckbox']",
+    editIndexIconLocator: "[id*='LinkEditToolbar'] > i",
+    saveEditButtonLocator: "[id*='ContainerButtons'] > button.btn.btn-primary"
   }
 
   async getLUEGFilesHomeText(){
@@ -38,6 +42,22 @@ export default class HomePage {
     await this.base.waitAndClickGetByRoleExact(this.Elements.buttonRole, 'Save', true);
     await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdText, 'Test Example');
     await this.base.waitAndClickGetByRole(this.Elements.buttonRole, 'Save and Close');
+  }
+
+  async selectFirstCheckbox() {
+    await this.base.waitAndClickFirstElement(this.Elements.checkboxIndexLocators);
+  }
+
+  async selectEditIcon() {
+    await this.base.waitAndClick(this.Elements.editIndexIconLocator);
+  }
+
+  async fillRecordIdWithEditedText(editedText: string) {
+    await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdForEditText, editedText);
+  }
+
+  async clickSave() {
+    await this.base.waitAndClick(this.Elements.saveEditButtonLocator);
   }
 
 }

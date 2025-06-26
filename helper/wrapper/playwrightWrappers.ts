@@ -15,6 +15,13 @@ export default class PlaywrightWrapper {
         await element.click();
     }
 
+    async waitAndClickFirstElement(locator: string) {
+        const element = this.page.locator(locator).first();
+        await element.waitFor({ state: "visible" });
+        await element.scrollIntoViewIfNeeded();
+        await element.click();
+    }
+
     async waitAndClickWithChallenge(locator1: string, locator2: string, option: string) {
         const frame = await this.page.locator(locator1).contentFrame();
         const element = frame.locator(locator2);
