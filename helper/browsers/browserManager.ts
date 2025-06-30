@@ -1,7 +1,7 @@
 import { chromium, firefox, LaunchOptions, webkit } from "playwright-core";
 
 const options: LaunchOptions = {
-  headless: false,
+  headless: true,
   slowMo: 1000
 }
 
@@ -14,6 +14,7 @@ export const invokeBrowser = () => {
       return firefox.launch(options);
     case "webkit":
       return webkit.launch(options);
-      throw new Error("Please set the proper browser!");
+    default:
+      throw new Error("Please set a proper browser! (chrome, firefox, webkit)");
   }
 }

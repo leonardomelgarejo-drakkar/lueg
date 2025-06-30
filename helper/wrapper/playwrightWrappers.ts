@@ -234,6 +234,11 @@ export default class PlaywrightWrapper {
         await this.page.selectOption(dropdownLocator, { label: labelOption });
     }
 
+    async waitForElementGetByText(text: string) {
+        const element = this.page.getByText(text, {exact:true}).first();
+        await element.waitFor({ state: "visible" });
+    }
+
     async close(){
         return await this.page.close();
     }

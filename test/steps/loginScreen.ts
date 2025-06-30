@@ -1,48 +1,38 @@
+// test/steps/login.steps.ts
 import { Given, When, Then } from "@cucumber/cucumber";
-import { fixture } from "../../hooks/pageFixture";
-import LoginPage from "../../pages/loginPage";
-import Assert from "../../helper/wrapper/assert";
 import { timeout } from "../../config/globalConfig";
-import HomePage from "../../pages/homePage";
+import { CustomWorld } from "../../helper/support/custom-world";
 
-let loginPage: LoginPage;
-let homePage: HomePage;
-let assert: Assert;
-
-Given('the user is on the login page', { timeout: timeout }, async function () {
-  loginPage = new LoginPage(fixture.page);
-  homePage = new HomePage(fixture.page);
-  assert = new Assert(fixture.page);
-  await loginPage.goto(process.env.BASEURL);
+Given('the user is on the login page', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.goto(process.env.BASEURL);
 });
 
-When('the user enters the correct username', { timeout: timeout }, async function () {
-  await loginPage.fillUserName(process.env.USER_NAME);
+When('the user enters the correct username', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.fillUserName(process.env.USER_NAME);
 });
 
-When('the user enters the incorrect username', { timeout: timeout }, async function () {
-  await loginPage.fillUserName("incorrect-username");
+When('the user enters the incorrect username', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.fillUserName("incorrect-username");
 });
 
-When('the user enters the correct password', { timeout: timeout }, async function () {
-  await loginPage.fillPassword(process.env.PASSWORD);
+When('the user enters the correct password', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.fillPassword(process.env.PASSWORD);
 });
 
-When('the user enters the incorrect password', { timeout: timeout }, async function () {
-  await loginPage.fillPassword("incorrect-password");
+When('the user enters the incorrect password', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.fillPassword("incorrect-password");
 });
 
-When('the user clicks the login button', { timeout: timeout }, async function () {
-  await loginPage.waitAndClickLoginButton();
+When('the user clicks the login button', { timeout }, async function (this: CustomWorld) {
+  await this.loginPage.waitAndClickLoginButton();
 });
 
-Then('the home page is displayed', { timeout: timeout }, async function () {
-  const homeText = await homePage.getLUEGFilesHomeText();
-  assert.assertElementContains(homeText, "LUEG Files");
+Then('the user is on the home page', { timeout }, async function (this: CustomWorld) {
+  const homeText = await this.homePage.getLUEGFilesHomeText();
+  this.assert.assertElementContains(homeText, "LUEG Files");
 });
 
-Then('an error message is displayed', { timeout: timeout }, async function () {
-  const errorMessage = await loginPage.getErrorMessageText();
-  assert.assertElementContains(
-    errorMessage, "Invalid username or password");
+Then('an error message is displayed', { timeout }, async function (this: CustomWorld) {
+  const errorMessage = await this.loginPage.getErrorMessageText();
+  this.assert.assertElementContains(errorMessage, "Invalid username or password");
 });

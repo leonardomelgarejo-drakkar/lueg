@@ -1,26 +1,17 @@
-import { Given, When } from "@cucumber/cucumber";
+import { When, Then } from "@cucumber/cucumber";
 import { timeout } from "../../config/globalConfig";
-import Assert from "../../helper/wrapper/assert";
-import { fixture } from "../../hooks/pageFixture";
-import HomePage from "../../pages/homePage";
+import { CustomWorld } from "../../helper/support/custom-world";
 
-let homePage: HomePage;
-let assert: Assert;
+let editedText: string;
 
-Given('the user selects an index from the grid', { timeout: timeout }, async function () {
-  homePage = new HomePage(fixture.page);
-  await homePage.selectFirstCheckbox();
-
+When('the user edits a record from the grid menu', { timeout }, async function (this: CustomWorld) {
+  await this.homePage.selectFirstCheckbox();
+  await this.homePage.selectEditIcon();
+  editedText = await this.homePage.fillRecordIdWithEditedText();
+  await this.homePage.clickSave();
 });
 
-When('the user clicks the edit icon from the menu above the grid', { timeout: timeout }, async function () {
-  await homePage.selectEditIcon();
-});
-
-When('the user edit Record ID with {string}', { timeout: timeout }, async function (editMessage: string) {
-  await homePage.fillRecordIdWithEditedText(editMessage);
-});
-
-When('the user clicks the save button', { timeout: timeout }, async function () {
-  await homePage.clickSave();
+Then('the edited document is displayed', { timeout }, async function (this: CustomWorld) {
+  const searchedText = await this.homePage.getSearchedText(editedText);
+  this.assert.assertElementContains(searchedText, editedText);
 });

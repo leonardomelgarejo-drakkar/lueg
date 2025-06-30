@@ -10,8 +10,9 @@ module.exports = {
     dryRun: false,
     require: [
       "test/steps/*.ts",
-      "hooks/hooks.ts"
+      "helper/support/hooks.ts"
     ],
+    worldParameters: {},
     requireModule: [
       "ts-node/register"
     ],
@@ -20,6 +21,7 @@ module.exports = {
       "json:test-results/cucumber-report.json"
     ],
     strict: false,
-    timeout: 30000
+    parallel: 2,
+    timeout: 45000
   }
 }

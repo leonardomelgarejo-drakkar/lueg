@@ -13,8 +13,10 @@ export default class HomePage {
     optionRole: "option",
     buttonRole: "button",
     textboxRole: "textbox",
+    searchboxRole: "searchbox",
     luegFilesHomeText: "LUEG Files",
     recordIdText: "Record ID*",
+    searchNameText: "Search...",
     recordIdForEditText: "Record ID",
     createDocumentIcon: "#b13-LinkCreateDocumentToolbar .fa-plus-square",
     dropdownObjectTypeLocator: "#b13-b45-DropdownDocumentTypeId",
@@ -44,6 +46,18 @@ export default class HomePage {
     await this.base.waitAndClickGetByRole(this.Elements.buttonRole, 'Save and Close');
   }
 
+  async fillBasicSearchCriteria(searchCriteria: string) {
+    await this.base.fillByRole(this.Elements.searchboxRole, this.Elements.searchNameText, searchCriteria);
+    await this.base.waitForElementGetByText(searchCriteria);
+  }
+
+  async getSearchedText(searchCriteria: string) {
+    const element = await this.base.getByTextExact(searchCriteria, true);
+    await this.base.waitForElementGetByText(searchCriteria);
+
+    return element;
+  }
+
   async selectFirstCheckbox() {
     await this.base.waitAndClickFirstElement(this.Elements.checkboxIndexLocators);
   }
@@ -52,8 +66,11 @@ export default class HomePage {
     await this.base.waitAndClick(this.Elements.editIndexIconLocator);
   }
 
-  async fillRecordIdWithEditedText(editedText: string) {
+  async fillRecordIdWithEditedText() {
+    const randomNumber = Math.floor(Math.random() * 10000) + 1;
+    const editedText = 'Edited Record ID ' + randomNumber;
     await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdForEditText, editedText);
+    return editedText;
   }
 
   async clickSave() {
