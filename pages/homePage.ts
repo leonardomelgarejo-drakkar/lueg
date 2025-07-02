@@ -19,12 +19,17 @@ export default class HomePage {
     searchNameText: "Search...",
     recordIdForEditText: "Record ID",
     createDocumentIcon: "#b13-LinkCreateDocumentToolbar .fa-plus-square",
-    dropdownObjectTypeLocator: "#b13-b45-DropdownDocumentTypeId",
+    selectAnOptionName: "Select an option",
+    saveEditButtonName: "Save",
+    saveAndCloseName: "Save and Close",
+    dropdownObjectTypeLocator: "select[id*='DropdownDocumentTypeId']",
     dropdownModelTemplateLocator: "#b13-b45-b1-SelectedValues",
+    dropdownLUEGTypeLocator: "[id*=DropdownSearch]:below(label:has-text('LUEG Type'))",
+    dropdownLUEGSubtypeLocator: "[id*=DropdownSearch]:below(label:has-text('LUEG Subtype'))",
+    importDocumentButton: "[id*='LinkImportDocumentToolbar'] > i",
     checkboxIndexLocators: "[id*='SelectCheckbox']",
-    editIndexIconLocator: "[id*='LinkEditToolbar'] > i",
-    saveEditButtonLocator: "[id*='ContainerButtons'] > button.btn.btn-primary"
-  }
+    editIndexIconLocator: "[id*='LinkEditToolbar'] > i"
+  };
 
   async getLUEGFilesHomeText(){
     return await this.base.getByText(this.Elements.luegFilesHomeText);
@@ -38,12 +43,12 @@ export default class HomePage {
     await this.base.selectDropdownOption(this.Elements.dropdownObjectTypeLocator, optionLabel);
   }
 
-  async selectDropdownModelTemplate(optionLabel: string){
-    await this.base.waitAndClick(this.Elements.dropdownModelTemplateLocator);
-    await this.base.waitAndClickGetByRole(this.Elements.optionRole, 'TEMPLATE-PDS-ENF-24-Hour');
-    await this.base.waitAndClickGetByRoleExact(this.Elements.buttonRole, 'Save', true);
-    await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdText, 'Test Example');
-    await this.base.waitAndClickGetByRole(this.Elements.buttonRole, 'Save and Close');
+  async waitAndClickDropdownModelTemplate() {
+    await this.base.waitAndClickGetByRole(this.Elements.buttonRole, this.Elements.selectAnOptionName);
+  }
+
+  async selectDropdownModelTemplate(optionLabel: string) {
+    await this.base.waitAndClickGetByRole(this.Elements.optionRole, optionLabel);
   }
 
   async fillBasicSearchCriteria(searchCriteria: string) {
@@ -73,8 +78,39 @@ export default class HomePage {
     return editedText;
   }
 
+  async fillRecordIdWithImportedDocumentText() {
+    const randomNumber = Math.floor(Math.random() * 10000) + 1;
+    const importedDocumentRecordIdText = 'Imported document Record ID ' + randomNumber;
+    await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdText, importedDocumentRecordIdText);
+    return importedDocumentRecordIdText;
+  }
+
+  async waitForElementGetByText(text: string) {
+    await this.base.waitForElementGetByText(text);
+  }
+
   async clickSave() {
-    await this.base.waitAndClick(this.Elements.saveEditButtonLocator);
+    await this.base.waitAndClickGetByRoleExact(this.Elements.buttonRole, this.Elements.saveEditButtonName, true);
+  }
+
+  async clickSaveAndClose() {
+    await this.base.waitAndClickGetByRole(this.Elements.buttonRole, this.Elements.saveAndCloseName);
+  }
+
+  async waitAndClickImportDocumentButton(){
+    await this.base.waitAndClick(this.Elements.importDocumentButton);
+  }
+
+  async waitAndClickDropdownLUEGType(LUEGType: string) {
+    await this.base.waitAndClick(this.Elements.dropdownLUEGTypeLocator);
+    await this.base.fillByRole(this.Elements.textboxRole, this.Elements.searchNameText, LUEGType);
+    await this.base.waitAndClickGetByText(LUEGType);
+  }
+
+  async waitAndClickDropdownLUEGSubtype(LUEGSubtype: string) {
+    await this.base.waitAndClick(this.Elements.dropdownLUEGSubtypeLocator);
+    await this.base.fillByRole(this.Elements.textboxRole, this.Elements.searchNameText, LUEGSubtype);
+    await this.base.waitAndClickGetByText(LUEGSubtype);
   }
 
 }

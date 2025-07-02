@@ -12,6 +12,7 @@ When('the user edits a record from the grid menu', { timeout }, async function (
 });
 
 Then('the edited document is displayed', { timeout }, async function (this: CustomWorld) {
+  await this.homePage.fillBasicSearchCriteria(editedText);
   const searchedText = await this.homePage.getSearchedText(editedText);
   this.assert.assertElementContains(searchedText, editedText);
 });

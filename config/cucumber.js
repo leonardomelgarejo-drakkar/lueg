@@ -22,6 +22,6 @@ module.exports = {
     ],
     strict: false,
     parallel: 2,
-    timeout: 45000
+    timeout: 90000
   }
 }

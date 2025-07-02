@@ -9,7 +9,7 @@ export default class PlaywrightWrapper {
     }
 
     async waitAndClick(locator: string) {
-        const element = this.page.locator(locator);
+        const element = this.page.locator(locator).first();
         await element.waitFor({ state: "visible" });
         await element.scrollIntoViewIfNeeded();
         await element.click();
@@ -34,6 +34,7 @@ export default class PlaywrightWrapper {
     async waitAndClickGetByText(text: string) {
         const element = this.page.getByText(text, {exact:false});
         await element.waitFor({ state: "visible" });
+        await element.scrollIntoViewIfNeeded();
         await element.click();
     }
 
@@ -102,6 +103,7 @@ export default class PlaywrightWrapper {
     async fillByRole(role: string, roleName: string, text: string){
         const element = this.page.getByRole(role as any, { name: roleName }).first();
         await element.waitFor({ state: "visible" });
+        await element.clear();
         await element.fill(text);
     }
 
