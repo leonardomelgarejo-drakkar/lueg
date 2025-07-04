@@ -11,6 +11,7 @@ export class CustomWorld extends World {
   loginPage!: LoginPage;
   assert!: Assert;
   logger!: Logger;
+  importedDocumentRecordIdText?: string;
 
   constructor(options: IWorldOptions) {
     super(options);

@@ -1,7 +1,7 @@
 import { chromium, firefox, LaunchOptions, webkit } from "playwright-core";
 
 const options: LaunchOptions = {
-  headless: false,
+  headless: true,
   slowMo: 1000
 }
 

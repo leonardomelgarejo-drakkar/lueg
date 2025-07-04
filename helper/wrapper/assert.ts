@@ -34,4 +34,12 @@ export default class Assert {
         expect(condition, message).toBe(false);
     }
 
+    async assertNull(value: any, message?: string) {
+        expect(value, message).toBeNull();
+    }
+
+    async assertEmpty(value: any, message?: string) {
+        expect(value, message).toBe("");
+    }
+
 }

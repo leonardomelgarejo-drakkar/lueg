@@ -2,7 +2,7 @@ import { Then, When } from "@cucumber/cucumber";
 import { timeout } from "../../config/globalConfig";
 import { CustomWorld } from "../../helper/support/custom-world";
 
-let importedDocumentRecordIdText: string;
+// let importedDocumentRecordIdText: string;
 
 When('the user clicks the import document button', { timeout }, async function (this: CustomWorld) {
   await this.homePage.waitAndClickImportDocumentButton();
@@ -27,7 +27,7 @@ When('the user selects LUEG Subtype as {string}', { timeout }, async function (t
 });
 
 When('the user fills the Record ID with a random number', { timeout }, async function (this: CustomWorld) {
-  importedDocumentRecordIdText = await this.homePage.fillRecordIdWithImportedDocumentText();
+  this.importedDocumentRecordIdText = await this.homePage.fillRecordIdWithImportedDocumentText();
 });
 
 When('the user clicks the save and close button', { timeout }, async function (this: CustomWorld) {
@@ -35,7 +35,7 @@ When('the user clicks the save and close button', { timeout }, async function (t
 });
 
 Then('the imported document is displayed', { timeout }, async function (this: CustomWorld) {
-  await this.homePage.fillBasicSearchCriteria(importedDocumentRecordIdText);
-  const searchedText = await this.homePage.getSearchedText(importedDocumentRecordIdText);
-  this.assert.assertElementContains(searchedText, importedDocumentRecordIdText);
+  await this.homePage.fillBasicSearchCriteria(this.importedDocumentRecordIdText);
+  const searchedText = await this.homePage.getSearchedText(this.importedDocumentRecordIdText);
+  this.assert.assertElementContains(searchedText, this.importedDocumentRecordIdText);
 });
