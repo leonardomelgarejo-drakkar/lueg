@@ -61,11 +61,11 @@ Thanks to the `workflow_dispatch` feature, you can run the GitHub Actions workfl
 5. In the `tags` input field, enter the tags you want to run, for example: `@smoke-test`. If left blank, all test scenarios will be executed.  
 6. The `qa_report` field defaults to “no.” If you want to generate the QA Report, select “yes.”  
 7. Click **Run workflow** to start execution.  
-8. After this workflow completes, the “pages build and deployment” workflow is triggered automatically, producing a test report available at: [Cucumber Report HTML](https://leonardomelgarejo.github.io/test-automation-example/).  
+8. After this workflow completes, the “pages build and deployment” workflow is triggered automatically, producing a test report available at: [Cucumber Report HTML](https://github.com/leonardomelgarejo-drakkar/lueg/).  
 
 This feature allows you to execute tests remotely without modifying the code locally—just configure the tags through the GitHub Actions interface.
 
-**Note**: For the GitHub Actions CI workflow to run, you must set/include the following secrets in [Settings → Secrets → Actions](https://github.com/leonardomelgarejo/test-automation-example/settings/secrets/actions):
+**Note**: For the GitHub Actions CI workflow to run, you must set/include the following secrets in [Settings → Secrets → Actions](https://github.com/leonardomelgarejo-drakkar/lueg/settings/secrets/actions):
 
 **Fixed secrets**:  
 - `BASEURL_DEV`  
@@ -98,8 +98,8 @@ To view the HTML report, just open the `cucumber-report.html` file in your brows
 
 The report generation for remote runs is under maintenance and will be integrated into the CI/CD pipeline. The goal is to make them available via GitHub Actions.
 
-The generated report can be accessed at [Cucumber Report HTML](https://leonardomelgarejo.github.io/test-automation-example/).  
-The JSON report can be accessed directly at [Cucumber Report JSON](https://leonardomelgarejo.github.io/test-automation-example/report.json).
+The generated report can be accessed at [Cucumber Report HTML](https://github.com/leonardomelgarejo-drakkar/lueg/).  
+The JSON report can be accessed directly at [Cucumber Report JSON](https://github.com/leonardomelgarejo-drakkar/lueg/report.json).
 
 ### 🛠 How to Generate the HTML Report from JSON
 
@@ -112,7 +112,7 @@ If you want to generate the HTML report locally, follow these steps using the **
 
 2. **Download the report JSON**:  
    ```bash
-   wget -O report.json https://leonardomelgarejo.github.io/test-automation-example/report.json
+   wget -O report.json https://github.com/leonardomelgarejo-drakkar/lueg/report.json
    ```
 
 3. **Generate the HTML report**:  

@@ -17,18 +17,21 @@ export default class HomePage {
     luegFilesHomeText: "LUEG Files",
     recordIdText: "Record ID*",
     searchNameText: "Search...",
+    noItemsText: "No items to show...",
     recordIdForEditText: "Record ID",
     createDocumentIcon: "#b13-LinkCreateDocumentToolbar .fa-plus-square",
     selectAnOptionName: "Select an option",
     saveEditButtonName: "Save",
     saveAndCloseName: "Save and Close",
+    deleteIconName: "Delete",
     dropdownObjectTypeLocator: "select[id*='DropdownDocumentTypeId']",
     dropdownModelTemplateLocator: "#b13-b45-b1-SelectedValues",
     dropdownLUEGTypeLocator: "[id*=DropdownSearch]:below(label:has-text('LUEG Type'))",
     dropdownLUEGSubtypeLocator: "[id*=DropdownSearch]:below(label:has-text('LUEG Subtype'))",
     importDocumentButton: "[id*='LinkImportDocumentToolbar'] > i",
     checkboxIndexLocators: "[id*='SelectCheckbox']",
-    editIndexIconLocator: "[id*='LinkEditToolbar'] > i"
+    editIndexIconLocator: "[id*='LinkEditToolbar'] > i",
+    deleteIconLocator: "[id*='LinkDeleteToolbar'] > i"
   };
 
   async getLUEGFilesHomeText(){
@@ -56,6 +59,13 @@ export default class HomePage {
     await this.base.waitForElementGetByText(searchCriteria);
   }
 
+  async isGridEmpty(): Promise<boolean> {
+    const noResults = this.page.getByText(this.Elements.noItemsText);
+    await this.base.waitForElementGetByText(this.Elements.noItemsText);
+    const visible = await noResults.isVisible();
+    return visible;
+  }
+
   async getSearchedText(searchCriteria: string) {
     const element = await this.base.getByTextExact(searchCriteria, true);
     await this.base.waitForElementGetByText(searchCriteria);
@@ -71,6 +81,10 @@ export default class HomePage {
     await this.base.waitAndClick(this.Elements.editIndexIconLocator);
   }
 
+  async selectDeleteIcon() {
+    await this.base.waitAndClick(this.Elements.deleteIconLocator);
+  }
+
   async fillRecordIdWithEditedText() {
     const randomNumber = Math.floor(Math.random() * 10000) + 1;
     const editedText = 'Edited Record ID ' + randomNumber;
@@ -79,7 +93,7 @@ export default class HomePage {
   }
 
   async fillRecordIdWithImportedDocumentText() {
-    const randomNumber = Math.floor(Math.random() * 10000) + 1;
+    const randomNumber = Math.floor(Math.random() * 100000) + 1;
     const importedDocumentRecordIdText = 'Imported document Record ID ' + randomNumber;
     await this.base.fillByRole(this.Elements.textboxRole, this.Elements.recordIdText, importedDocumentRecordIdText);
     return importedDocumentRecordIdText;
@@ -89,8 +103,18 @@ export default class HomePage {
     await this.base.waitForElementGetByText(text);
   }
 
+  async waitForDeletedDocumentoToDisappear(text: string) {
+    await this.base.waitForElementToDisappearByText(text);
+  }
+
   async clickSave() {
+    await this.base.waitForElementGetByRole(this.Elements.buttonRole, this.Elements.saveEditButtonName);
     await this.base.waitAndClickGetByRoleExact(this.Elements.buttonRole, this.Elements.saveEditButtonName, true);
+  }
+
+  async clickDelete() {
+    await this.base.waitAndClickGetByRole(this.Elements.buttonRole, this.Elements.deleteIconName);
+    await this.base.waitForElementToDisappearByRole(this.Elements.buttonRole, this.Elements.deleteIconName);
   }
 
   async clickSaveAndClose() {

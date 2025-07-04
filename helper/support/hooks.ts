@@ -19,11 +19,11 @@ BeforeAll(async function() {
   browser = await invokeBrowser();
 })
 
-Before({ tags: "@skip" }, async function () {
+Before({ tags: "@skip", timeout }, async function () {
   return "pending";
 });
 
-Before({ tags: "@ui" }, async function (this: CustomWorld, { pickle }) {
+Before({ tags: "@ui", timeout }, async function (this: CustomWorld, { pickle }) {
   const scenarioName = pickle.name + pickle.id;
   context = await browser.newContext({
     recordVideo: {
@@ -45,7 +45,7 @@ Before({ tags: "@ui" }, async function (this: CustomWorld, { pickle }) {
   this.assert = new Assert(this.page);
 })
 
-After({ tags: "@ui" }, async function ({ pickle }) {
+After({ tags: "@ui", timeout }, async function ({ pickle }) {
   try {
     if (!this.page) {
       console.warn(`Página não inicializada — pulando teardown para: ${pickle.name}`);
@@ -77,6 +77,6 @@ After({ tags: "@ui" }, async function ({ pickle }) {
   }
 });
 
-AfterAll(async function () {
+AfterAll({ timeout }, async function () {
   await browser.close();
 });

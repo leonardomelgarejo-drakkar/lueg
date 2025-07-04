@@ -241,6 +241,21 @@ export default class PlaywrightWrapper {
         await element.waitFor({ state: "visible" });
     }
 
+    async waitForElementGetByRole(roleType: string, role: string) {
+        const element = this.page.getByRole(roleType as any, { name: role }).first();
+        await element.waitFor({ state: "visible" });
+    }
+
+    async waitForElementToDisappearByRole(roleType: string, role: string) {
+        const element = this.page.getByRole(roleType as any, { name: role }).first();
+        await element.waitFor({ state: "hidden" }); // or "hidden"
+    }
+
+    async waitForElementToDisappearByText(text: string) {
+        const element = this.page.getByText(text, { exact: true }).first();
+        await element.waitFor({ state: "detached" }); // or "hidden"
+    }
+
     async close(){
         return await this.page.close();
     }
